@@ -1,0 +1,1736 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMRIX FITNESS</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      font-family: 'Cairo', 'Orbitron', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0a1628 0%, #000000 50%, #0a0a0a 100%);
+    }
+    
+    .neon-green {
+      color: #39ff14;
+      text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 30px #39ff14;
+    }
+    
+    .neon-blue {
+      color: #00d4ff;
+      text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+    }
+    
+    .card-glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(57, 255, 20, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(57, 255, 20, 0.1);
+    }
+    
+    .btn-neon {
+      background: linear-gradient(135deg, #39ff14 0%, #00d4ff 100%);
+      color: #000;
+      font-weight: 700;
+      border-radius: 25px;
+      padding: 12px 30px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+    }
+    
+    .btn-neon:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(57, 255, 20, 0.6), 0 0 60px rgba(0, 212, 255, 0.4);
+    }
+    
+    .btn-secondary {
+      background: rgba(57, 255, 20, 0.1);
+      border: 2px solid #39ff14;
+      color: #39ff14;
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 10px 25px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(57, 255, 20, 0.2);
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+    }
+    
+    .motion-lines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    
+    .motion-line {
+      position: absolute;
+      width: 2px;
+      height: 100px;
+      background: linear-gradient(to bottom, transparent, #39ff14, transparent);
+      animation: fall 3s linear infinite;
+      opacity: 0.3;
+    }
+    
+    @keyframes fall {
+      0% { transform: translateY(-100px); opacity: 0; }
+      50% { opacity: 0.3; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    
+    .leg-day-bg {
+      background: linear-gradient(135deg, #0a1628 0%, #1a3a0a 50%, #0a0a0a 100%);
+      animation: pulse-glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes pulse-glow {
+      0% { box-shadow: inset 0 0 50px rgba(57, 255, 20, 0.1); }
+      100% { box-shadow: inset 0 0 100px rgba(57, 255, 20, 0.2); }
+    }
+    
+    .input-field {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: white;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: #39ff14;
+      box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+    }
+    
+    .select-field {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: white;
+      width: 100%;
+      cursor: pointer;
+    }
+    
+    .select-field option {
+      background: #0a1628;
+      color: white;
+    }
+    
+    .nav-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+    
+    .nav-btn:hover {
+      background: rgba(57, 255, 20, 0.2);
+    }
+    
+    .nav-btn.active {
+      background: rgba(57, 255, 20, 0.3);
+      color: #39ff14;
+    }
+    
+    .page {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    .page.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .exercise-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(57, 255, 20, 0.15);
+      border-radius: 15px;
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .exercise-card:hover {
+      border-color: #39ff14;
+      box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+    }
+    
+    .meal-card {
+      background: rgba(0, 212, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 15px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    
+    .challenge-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(57, 255, 20, 0.2);
+      border-radius: 15px;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .challenge-card.completed {
+      border-color: #39ff14;
+      background: rgba(57, 255, 20, 0.1);
+    }
+    
+    .chat-container {
+      height: 400px;
+      overflow-y: auto;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      margin-bottom: 16px;
+    }
+    
+    .chat-message {
+      margin-bottom: 12px;
+      padding: 12px 16px;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+    
+    .chat-user {
+      background: rgba(57, 255, 20, 0.2);
+      margin-left: auto;
+      text-align: right;
+    }
+    
+    .chat-ai {
+      background: rgba(0, 212, 255, 0.2);
+    }
+    
+    .rtl {
+      direction: rtl;
+      text-align: right;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #39ff14, #00d4ff);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(57, 255, 20, 0.3);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(57, 255, 20, 0.5);
+    }
+  </style>
+ </head>
+ <body class="h-full gradient-bg text-white overflow-auto">
+  <div id="app" class="h-full w-full relative"><!-- Motion Lines Background -->
+   <div class="motion-lines" id="motionLines"></div><!-- Main Content -->
+   <div class="relative z-10 min-h-full"><!-- Header -->
+    <header class="p-4 flex flex-wrap items-center justify-between gap-4 border-b border-gray-800">
+     <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center font-bold text-black">
+       A
+      </div>
+      <div>
+       <h1 id="appTitle" class="text-xl font-bold neon-green">AMRIX FITNESS</h1>
+       <p class="text-xs text-gray-400">Programmé par AMRIX.44</p>
+      </div>
+     </div>
+     <div class="flex gap-2"><button onclick="setLanguage('en')" class="nav-btn text-white" id="langEn">EN</button> <button onclick="setLanguage('fr')" class="nav-btn text-white" id="langFr">FR</button> <button onclick="setLanguage('ar')" class="nav-btn text-white" id="langAr">AR</button>
+     </div>
+    </header><!-- Navigation -->
+    <nav class="p-4 flex flex-wrap gap-2 justify-center border-b border-gray-800" id="mainNav"><button onclick="showPage('home')" class="nav-btn active" data-page="home" id="navHome">Home</button> <button onclick="showPage('setup')" class="nav-btn" data-page="setup" id="navSetup">Setup</button> <button onclick="showPage('gym')" class="nav-btn" data-page="gym" id="navGym">Gym</button> <button onclick="showPage('meal')" class="nav-btn" data-page="meal" id="navMeal">Meals</button> <button onclick="showPage('fat')" class="nav-btn" data-page="fat" id="navFat">Fat Calc</button> <button onclick="showPage('ai')" class="nav-btn" data-page="ai" id="navAi">AI Coach</button> <button onclick="showPage('challenge')" class="nav-btn" data-page="challenge" id="navChallenge">Challenge</button> <button onclick="showPage('motivation')" class="nav-btn" data-page="motivation" id="navMotivation">Motivation</button> <button onclick="showPage('about')" class="nav-btn" data-page="about" id="navAbout">About</button>
+    </nav><!-- Pages Container -->
+    <main class="p-4 md:p-8 max-w-6xl mx-auto"><!-- HOME PAGE -->
+     <section id="pageHome" class="page active">
+      <div class="text-center py-12 md:py-20">
+       <h2 class="text-3xl md:text-5xl font-black mb-8 leading-tight" id="heroQuote"><span class="neon-green">Love yourself</span> and work on your body…<br><span class="neon-blue">Change starts here</span> 👈</h2>
+       <p class="text-gray-400 mb-12" id="heroSubtext">Your personal fitness journey begins now</p>
+       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"><button onclick="showPage('gym')" class="card-glass p-6 hover:scale-105 transition-transform">
+         <div class="text-4xl mb-3">
+          🏋️
+         </div><span class="font-bold" id="btnGym">Gym Program</span> </button> <button onclick="showPage('meal')" class="card-glass p-6 hover:scale-105 transition-transform">
+         <div class="text-4xl mb-3">
+          🥗
+         </div><span class="font-bold" id="btnMeal">Meal Program</span> </button> <button onclick="showPage('fat')" class="card-glass p-6 hover:scale-105 transition-transform">
+         <div class="text-4xl mb-3">
+          📊
+         </div><span class="font-bold" id="btnFat">Fat Calculator</span> </button> <button onclick="showPage('ai')" class="card-glass p-6 hover:scale-105 transition-transform">
+         <div class="text-4xl mb-3">
+          🤖
+         </div><span class="font-bold" id="btnAi">AI Coach</span> </button> <button onclick="showPage('challenge')" class="card-glass p-6 hover:scale-105 transition-transform">
+         <div class="text-4xl mb-3">
+          🔥
+         </div><span class="font-bold" id="btnChallenge">Challenge</span> </button> <button onclick="showPage('motivation')" class="card-glass p-6 hover:scale-105 transition-transform">
+         <div class="text-4xl mb-3">
+          💪
+         </div><span class="font-bold" id="btnMotivation">Motivation</span> </button> <button onclick="showPage('about')" class="card-glass p-6 hover:scale-105 transition-transform col-span-2">
+         <div class="text-4xl mb-3">
+          👤
+         </div><span class="font-bold" id="btnAbout">About</span> </button>
+       </div>
+      </div>
+     </section><!-- SETUP PAGE -->
+     <section id="pageSetup" class="page">
+      <div class="card-glass p-6 md:p-8 max-w-2xl mx-auto">
+       <h2 class="text-2xl font-bold mb-6 neon-green text-center" id="setupTitle">⚙️ User Setup</h2>
+       <p class="text-gray-400 text-center mb-8" id="setupDesc">Enter your information to generate personalized programs</p>
+       <form id="setupForm" class="space-y-6">
+        <div class="grid md:grid-cols-2 gap-4">
+         <div><label class="block text-sm font-semibold mb-2" id="labelSex">Sex</label> <select id="inputSex" class="select-field" required> <option value="">Select...</option> <option value="male">Male</option> <option value="female">Female</option> </select>
+         </div>
+         <div><label class="block text-sm font-semibold mb-2" id="labelAge">Age</label> <input type="number" id="inputAge" class="input-field" placeholder="25" min="13" max="80" required>
+         </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div><label class="block text-sm font-semibold mb-2" id="labelHeight">Height (cm)</label> <input type="number" id="inputHeight" class="input-field" placeholder="175" min="100" max="250" required>
+         </div>
+         <div><label class="block text-sm font-semibold mb-2" id="labelWeight">Weight (kg)</label> <input type="number" id="inputWeight" class="input-field" placeholder="70" min="30" max="300" required>
+         </div>
+        </div>
+        <div><label class="block text-sm font-semibold mb-2" id="labelGoal">Goal</label> <select id="inputGoal" class="select-field" required> <option value="">Select...</option> <option value="fatloss">Fat Loss</option> <option value="muscle">Muscle Gain</option> <option value="fitness">General Fitness</option> </select>
+        </div>
+        <div><label class="block text-sm font-semibold mb-2" id="labelDays">Training Days per Week (3-6)</label> <input type="number" id="inputDays" class="input-field" placeholder="4" min="3" max="6" required>
+        </div><button type="submit" class="btn-neon w-full text-lg" id="btnGenerate"> 🚀 Generate My Program </button>
+       </form>
+      </div>
+     </section><!-- GYM PAGE -->
+     <section id="pageGym" class="page">
+      <div id="gymNoSetup" class="text-center py-12">
+       <div class="text-6xl mb-6">
+        ⚠️
+       </div>
+       <h3 class="text-xl font-bold mb-4" id="gymNoSetupTitle">Setup Required</h3>
+       <p class="text-gray-400 mb-6" id="gymNoSetupDesc">Please complete your user setup first to generate a personalized gym program.</p><button onclick="showPage('setup')" class="btn-neon" id="gymGoSetup">Go to Setup</button>
+      </div>
+      <div id="gymContent" class="hidden">
+       <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <h2 class="text-2xl font-bold neon-green" id="gymTitle">🏋️ Your Gym Program</h2>
+        <div class="text-sm text-gray-400" id="gymUserInfo"></div>
+       </div>
+       <div id="weekSchedule" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"></div><button onclick="regenerateGymProgram()" class="btn-secondary" id="btnNewWeek">🔄 Generate New Week</button>
+      </div>
+     </section><!-- MEAL PAGE -->
+     <section id="pageMeal" class="page">
+      <div id="mealNoSetup" class="text-center py-12">
+       <div class="text-6xl mb-6">
+        ⚠️
+       </div>
+       <h3 class="text-xl font-bold mb-4" id="mealNoSetupTitle">Setup Required</h3>
+       <p class="text-gray-400 mb-6" id="mealNoSetupDesc">Please complete your user setup first to generate a personalized meal program.</p><button onclick="showPage('setup')" class="btn-neon" id="mealGoSetup">Go to Setup</button>
+      </div>
+      <div id="mealContent" class="hidden">
+       <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <h2 class="text-2xl font-bold neon-blue" id="mealTitle">🥗 Your Meal Program</h2>
+       </div>
+       <div id="mealSchedule" class="space-y-6"></div>
+       <div class="mt-8 flex gap-4 flex-wrap"><button onclick="regenerateMealProgram()" class="btn-secondary" id="btnNewMealWeek">🔄 Generate New Week</button>
+       </div>
+      </div>
+     </section><!-- FAT CALCULATOR PAGE -->
+     <section id="pageFat" class="page">
+      <div class="card-glass p-6 md:p-8 max-w-2xl mx-auto">
+       <h2 class="text-2xl font-bold mb-6 neon-green text-center" id="fatTitle">📊 Body Fat Calculator</h2>
+       <p class="text-gray-400 text-center mb-8" id="fatDesc">Calculate your body fat percentage using the US Navy method</p>
+       <form id="fatForm" class="space-y-6">
+        <div class="grid md:grid-cols-2 gap-4">
+         <div><label class="block text-sm font-semibold mb-2" id="fatLabelSex">Sex</label> <select id="fatSex" class="select-field" required> <option value="">Select...</option> <option value="male">Male</option> <option value="female">Female</option> </select>
+         </div>
+         <div><label class="block text-sm font-semibold mb-2" id="fatLabelAge">Age</label> <input type="number" id="fatAge" class="input-field" placeholder="25" min="13" max="80" required>
+         </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div><label class="block text-sm font-semibold mb-2" id="fatLabelHeight">Height (cm)</label> <input type="number" id="fatHeight" class="input-field" placeholder="175" min="100" max="250" required>
+         </div>
+         <div><label class="block text-sm font-semibold mb-2" id="fatLabelWeight">Weight (kg)</label> <input type="number" id="fatWeight" class="input-field" placeholder="70" min="30" max="300" required>
+         </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+         <div><label class="block text-sm font-semibold mb-2" id="fatLabelWaist">Waist (cm)</label> <input type="number" id="fatWaist" class="input-field" placeholder="80" min="40" max="200" required>
+         </div>
+         <div><label class="block text-sm font-semibold mb-2" id="fatLabelNeck">Neck (cm)</label> <input type="number" id="fatNeck" class="input-field" placeholder="38" min="20" max="80" required>
+         </div>
+        </div>
+        <div id="hipField"><label class="block text-sm font-semibold mb-2" id="fatLabelHip">Hip (cm) - Female only</label> <input type="number" id="fatHip" class="input-field" placeholder="95" min="50" max="200">
+        </div><button type="submit" class="btn-neon w-full text-lg" id="btnCalculate"> 📊 Calculate </button>
+       </form>
+       <div id="fatResult" class="hidden mt-8 p-6 bg-black/30 rounded-xl text-center">
+        <h3 class="text-3xl font-bold neon-green mb-2" id="fatPercentage"></h3>
+        <p class="text-xl mb-4" id="fatCategory"></p>
+        <p class="text-gray-400" id="fatAdvice"></p>
+       </div>
+      </div>
+     </section><!-- AI COACH PAGE -->
+     <section id="pageAi" class="page">
+      <div class="card-glass p-6 max-w-3xl mx-auto">
+       <h2 class="text-2xl font-bold mb-6 neon-blue text-center" id="aiTitle">🤖 AI Coach</h2>
+       <div class="chat-container" id="chatContainer">
+        <div class="chat-message chat-ai" id="aiWelcome">
+         👋 Hello! I'm your AI fitness coach. Tell me about your fitness goals, and I'll help you with personalized advice on training, nutrition, and motivation!
+        </div>
+       </div>
+       <div class="flex gap-2"><input type="text" id="chatInput" class="input-field flex-1" placeholder="Ask me anything about fitness..."> <button onclick="sendMessage()" class="btn-neon px-6" id="btnSend">Send</button>
+       </div>
+      </div>
+     </section><!-- CHALLENGE PAGE -->
+     <section id="pageChallenge" class="page">
+      <h2 class="text-2xl font-bold mb-6 neon-green text-center" id="challengeTitle">🔥 Daily Challenges</h2>
+      <div id="challengeContent" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"><!-- Challenges will be generated here -->
+      </div>
+      <div class="mt-8 text-center">
+       <div class="progress-bar max-w-md mx-auto mb-4">
+        <div class="progress-fill" id="challengeProgress" style="width: 0%"></div>
+       </div>
+       <p class="text-gray-400" id="challengeProgressText">0/6 completed</p>
+      </div>
+     </section><!-- MOTIVATION PAGE -->
+     <section id="pageMotivation" class="page">
+      <div class="text-center py-12">
+       <div class="card-glass p-8 md:p-12 max-w-3xl mx-auto mb-8">
+        <div class="text-6xl mb-6">
+         💪
+        </div>
+        <h2 class="text-2xl md:text-4xl font-black mb-6 neon-green" id="dailyQuote">"The only bad workout is the one that didn't happen."</h2>
+        <p class="text-gray-400" id="quoteAuthor">— Unknown</p>
+       </div>
+       <div class="card-glass p-6 max-w-xl mx-auto">
+        <h3 class="text-xl font-bold mb-4 neon-blue" id="weeklyChallenge">Weekly Challenge</h3>
+        <p class="text-lg mb-4" id="weeklyTask">Complete 5 training sessions this week!</p>
+        <div class="progress-bar mb-4">
+         <div class="progress-fill" id="weeklyProgress" style="width: 60%"></div>
+        </div>
+        <p class="text-gray-400" id="weeklyProgressText">3/5 sessions completed</p>
+       </div>
+      </div>
+     </section><!-- ABOUT PAGE -->
+     <section id="pageAbout" class="page">
+      <div class="card-glass p-6 md:p-8 max-w-2xl mx-auto text-center">
+       <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-green-400 to-blue-500 flex items-center justify-center"><span class="text-4xl font-black text-black">A</span>
+       </div>
+       <h2 class="text-3xl font-bold mb-4 neon-green">AMRIX.44</h2>
+       <p class="text-xl text-gray-300 mb-6" id="aboutSubtitle">First Project</p>
+       <p class="text-gray-400 mb-8" id="aboutDesc">This fitness application was created to help people achieve their health and fitness goals. Built with passion and dedication to making fitness accessible to everyone.</p>
+       <div class="card-glass p-4 inline-block mb-8">
+        <p class="text-sm text-gray-400 mb-2" id="followMe">Follow me on Instagram</p><a href="https://instagram.com/amrix.44" target="_blank" rel="noopener noreferrer" class="neon-blue text-lg font-bold hover:underline"> @amrix.44 </a>
+       </div>
+       <div><button onclick="showPage('home')" class="btn-secondary" id="btnBackHome">← Back to Home</button>
+       </div>
+      </div>
+     </section>
+    </main>
+   </div>
+  </div>
+  <script>
+    // ==================== GLOBAL STATE ====================
+    let currentLang = 'en';
+    let userData = null;
+    let gymProgram = null;
+    let mealProgram = null;
+    let completedChallenges = new Set();
+    let allUserData = [];
+    
+    // ==================== TRANSLATIONS ====================
+    const translations = {
+      en: {
+        navHome: 'Home',
+        navSetup: 'Setup',
+        navGym: 'Gym',
+        navMeal: 'Meals',
+        navFat: 'Fat Calc',
+        navAi: 'AI Coach',
+        navChallenge: 'Challenge',
+        navMotivation: 'Motivation',
+        navAbout: 'About',
+        
+        heroQuote: '<span class="neon-green">Love yourself</span> and work on your body…<br><span class="neon-blue">Change starts here</span> 👈',
+        heroSubtext: 'Your personal fitness journey begins now',
+        btnGym: 'Gym Program',
+        btnMeal: 'Meal Program',
+        btnFat: 'Fat Calculator',
+        btnAi: 'AI Coach',
+        btnChallenge: 'Challenge',
+        btnMotivation: 'Motivation',
+        btnAbout: 'About',
+        
+        setupTitle: '⚙️ User Setup',
+        setupDesc: 'Enter your information to generate personalized programs',
+        labelSex: 'Sex',
+        labelAge: 'Age',
+        labelHeight: 'Height (cm)',
+        labelWeight: 'Weight (kg)',
+        labelGoal: 'Goal',
+        labelDays: 'Training Days per Week (3-6)',
+        btnGenerate: '🚀 Generate My Program',
+        goalFatloss: 'Fat Loss',
+        goalMuscle: 'Muscle Gain',
+        goalFitness: 'General Fitness',
+        sexMale: 'Male',
+        sexFemale: 'Female',
+        
+        gymNoSetupTitle: 'Setup Required',
+        gymNoSetupDesc: 'Please complete your user setup first to generate a personalized gym program.',
+        gymGoSetup: 'Go to Setup',
+        gymTitle: '🏋️ Your Gym Program',
+        btnNewWeek: '🔄 Generate New Week',
+        restDay: 'Rest Day',
+        legDayQuote: 'Today is tough… but tomorrow your legs will be stronger 💪',
+        
+        mealNoSetupTitle: 'Setup Required',
+        mealNoSetupDesc: 'Please complete your user setup first to generate a personalized meal program.',
+        mealGoSetup: 'Go to Setup',
+        mealTitle: '🥗 Your Meal Program',
+        btnNewMealWeek: '🔄 Generate New Week',
+        breakfast: 'Breakfast',
+        lunch: 'Lunch',
+        dinner: 'Dinner',
+        snack: 'Snack',
+        
+        fatTitle: '📊 Body Fat Calculator',
+        fatDesc: 'Calculate your body fat percentage using the US Navy method',
+        fatLabelWaist: 'Waist (cm)',
+        fatLabelNeck: 'Neck (cm)',
+        fatLabelHip: 'Hip (cm) - Female only',
+        btnCalculate: '📊 Calculate',
+        
+        aiTitle: '🤖 AI Coach',
+        aiWelcome: '👋 Hello! I\'m your AI fitness coach. Tell me about your fitness goals, and I\'ll help you with personalized advice on training, nutrition, and motivation!',
+        btnSend: 'Send',
+        
+        challengeTitle: '🔥 Daily Challenges',
+        
+        dailyQuote: '"The only bad workout is the one that didn\'t happen."',
+        quoteAuthor: '— Unknown',
+        weeklyChallenge: 'Weekly Challenge',
+        weeklyTask: 'Complete 5 training sessions this week!',
+        
+        aboutSubtitle: 'First Project',
+        aboutDesc: 'This fitness application was created to help people achieve their health and fitness goals. Built with passion and dedication to making fitness accessible to everyone.',
+        followMe: 'Follow me on Instagram',
+        btnBackHome: '← Back to Home',
+        
+        monday: 'Monday',
+        tuesday: 'Tuesday',
+        wednesday: 'Wednesday',
+        thursday: 'Thursday',
+        friday: 'Friday',
+        saturday: 'Saturday',
+        sunday: 'Sunday',
+        
+        catEssential: 'Essential Fat',
+        catAthletes: 'Athletes',
+        catFitness: 'Fitness',
+        catAverage: 'Average',
+        catObese: 'Obese'
+      },
+      fr: {
+        navHome: 'Accueil',
+        navSetup: 'Config',
+        navGym: 'Gym',
+        navMeal: 'Repas',
+        navFat: 'Calc Gras',
+        navAi: 'Coach IA',
+        navChallenge: 'Défi',
+        navMotivation: 'Motivation',
+        navAbout: 'À propos',
+        
+        heroQuote: '<span class="neon-green">Aime-toi</span> et travaille sur ton corps…<br><span class="neon-blue">Le changement commence ici</span> 👈',
+        heroSubtext: 'Votre parcours fitness personnel commence maintenant',
+        btnGym: 'Programme Gym',
+        btnMeal: 'Programme Repas',
+        btnFat: 'Calculateur Gras',
+        btnAi: 'Coach IA',
+        btnChallenge: 'Défi',
+        btnMotivation: 'Motivation',
+        btnAbout: 'À propos',
+        
+        setupTitle: '⚙️ Configuration Utilisateur',
+        setupDesc: 'Entrez vos informations pour générer des programmes personnalisés',
+        labelSex: 'Sexe',
+        labelAge: 'Âge',
+        labelHeight: 'Taille (cm)',
+        labelWeight: 'Poids (kg)',
+        labelGoal: 'Objectif',
+        labelDays: 'Jours d\'entraînement par semaine (3-6)',
+        btnGenerate: '🚀 Générer Mon Programme',
+        goalFatloss: 'Perte de Graisse',
+        goalMuscle: 'Prise de Muscle',
+        goalFitness: 'Fitness Général',
+        sexMale: 'Homme',
+        sexFemale: 'Femme',
+        
+        gymNoSetupTitle: 'Configuration Requise',
+        gymNoSetupDesc: 'Veuillez d\'abord compléter votre configuration pour générer un programme de gym personnalisé.',
+        gymGoSetup: 'Aller à Config',
+        gymTitle: '🏋️ Votre Programme Gym',
+        btnNewWeek: '🔄 Générer Nouvelle Semaine',
+        restDay: 'Jour de Repos',
+        legDayQuote: 'Aujourd\'hui est difficile… mais demain vos jambes seront plus fortes 💪',
+        
+        mealNoSetupTitle: 'Configuration Requise',
+        mealNoSetupDesc: 'Veuillez d\'abord compléter votre configuration pour générer un programme de repas personnalisé.',
+        mealGoSetup: 'Aller à Config',
+        mealTitle: '🥗 Votre Programme Repas',
+        btnNewMealWeek: '🔄 Générer Nouvelle Semaine',
+        breakfast: 'Petit-déjeuner',
+        lunch: 'Déjeuner',
+        dinner: 'Dîner',
+        snack: 'Collation',
+        
+        fatTitle: '📊 Calculateur de Graisse Corporelle',
+        fatDesc: 'Calculez votre pourcentage de graisse corporelle avec la méthode US Navy',
+        fatLabelWaist: 'Tour de taille (cm)',
+        fatLabelNeck: 'Tour de cou (cm)',
+        fatLabelHip: 'Tour de hanches (cm) - Femmes uniquement',
+        btnCalculate: '📊 Calculer',
+        
+        aiTitle: '🤖 Coach IA',
+        aiWelcome: '👋 Bonjour! Je suis votre coach fitness IA. Parlez-moi de vos objectifs fitness, et je vous aiderai avec des conseils personnalisés sur l\'entraînement, la nutrition et la motivation!',
+        btnSend: 'Envoyer',
+        
+        challengeTitle: '🔥 Défis Quotidiens',
+        
+        dailyQuote: '"Le seul mauvais entraînement est celui qui n\'a pas eu lieu."',
+        quoteAuthor: '— Inconnu',
+        weeklyChallenge: 'Défi de la Semaine',
+        weeklyTask: 'Complétez 5 séances d\'entraînement cette semaine!',
+        
+        aboutSubtitle: 'Premier Projet',
+        aboutDesc: 'Cette application fitness a été créée pour aider les gens à atteindre leurs objectifs de santé et fitness. Construite avec passion et dévouement pour rendre le fitness accessible à tous.',
+        followMe: 'Suivez-moi sur Instagram',
+        btnBackHome: '← Retour à l\'Accueil',
+        
+        monday: 'Lundi',
+        tuesday: 'Mardi',
+        wednesday: 'Mercredi',
+        thursday: 'Jeudi',
+        friday: 'Vendredi',
+        saturday: 'Samedi',
+        sunday: 'Dimanche',
+        
+        catEssential: 'Graisse Essentielle',
+        catAthletes: 'Athlètes',
+        catFitness: 'Fitness',
+        catAverage: 'Moyenne',
+        catObese: 'Obèse'
+      },
+      ar: {
+        navHome: 'الرئيسية',
+        navSetup: 'الإعداد',
+        navGym: 'الجيم',
+        navMeal: 'الوجبات',
+        navFat: 'حاسبة الدهون',
+        navAi: 'المدرب الذكي',
+        navChallenge: 'التحدي',
+        navMotivation: 'التحفيز',
+        navAbout: 'حول',
+        
+        heroQuote: '<span class="neon-green">حب نفسك</span> واشتغل على جسمك…<br><span class="neon-blue">التغيير يبدأ من هنا</span> 👈',
+        heroSubtext: 'رحلتك الرياضية الشخصية تبدأ الآن',
+        btnGym: 'برنامج الجيم',
+        btnMeal: 'برنامج الوجبات',
+        btnFat: 'حاسبة الدهون',
+        btnAi: 'المدرب الذكي',
+        btnChallenge: 'التحدي',
+        btnMotivation: 'التحفيز',
+        btnAbout: 'حول',
+        
+        setupTitle: '⚙️ إعداد المستخدم',
+        setupDesc: 'أدخل معلوماتك لإنشاء برامج مخصصة',
+        labelSex: 'الجنس',
+        labelAge: 'العمر',
+        labelHeight: 'الطول (سم)',
+        labelWeight: 'الوزن (كغ)',
+        labelGoal: 'الهدف',
+        labelDays: 'أيام التدريب في الأسبوع (3-6)',
+        btnGenerate: '🚀 إنشاء برنامجي',
+        goalFatloss: 'فقدان الدهون',
+        goalMuscle: 'بناء العضلات',
+        goalFitness: 'اللياقة العامة',
+        sexMale: 'ذكر',
+        sexFemale: 'أنثى',
+        
+        gymNoSetupTitle: 'الإعداد مطلوب',
+        gymNoSetupDesc: 'يرجى إكمال الإعداد أولاً لإنشاء برنامج جيم مخصص.',
+        gymGoSetup: 'الذهاب للإعداد',
+        gymTitle: '🏋️ برنامج الجيم الخاص بك',
+        btnNewWeek: '🔄 إنشاء أسبوع جديد',
+        restDay: 'يوم راحة',
+        legDayQuote: 'اليوم صعب… لكن غداً ستكون ساقيك أقوى 💪',
+        
+        mealNoSetupTitle: 'الإعداد مطلوب',
+        mealNoSetupDesc: 'يرجى إكمال الإعداد أولاً لإنشاء برنامج وجبات مخصص.',
+        mealGoSetup: 'الذهاب للإعداد',
+        mealTitle: '🥗 برنامج وجباتك',
+        btnNewMealWeek: '🔄 إنشاء أسبوع جديد',
+        breakfast: 'الفطور',
+        lunch: 'الغداء',
+        dinner: 'العشاء',
+        snack: 'وجبة خفيفة',
+        
+        fatTitle: '📊 حاسبة دهون الجسم',
+        fatDesc: 'احسب نسبة دهون جسمك باستخدام طريقة البحرية الأمريكية',
+        fatLabelWaist: 'محيط الخصر (سم)',
+        fatLabelNeck: 'محيط الرقبة (سم)',
+        fatLabelHip: 'محيط الورك (سم) - للإناث فقط',
+        btnCalculate: '📊 احسب',
+        
+        aiTitle: '🤖 المدرب الذكي',
+        aiWelcome: '👋 مرحباً! أنا مدربك الرياضي الذكي. أخبرني عن أهدافك الرياضية، وسأساعدك بنصائح مخصصة حول التدريب والتغذية والتحفيز!',
+        btnSend: 'إرسال',
+        
+        challengeTitle: '🔥 تحديات اليوم',
+        
+        dailyQuote: '"التمرين السيء الوحيد هو الذي لم يحدث."',
+        quoteAuthor: '— مجهول',
+        weeklyChallenge: 'تحدي الأسبوع',
+        weeklyTask: 'أكمل 5 جلسات تدريب هذا الأسبوع!',
+        
+        aboutSubtitle: 'المشروع الأول',
+        aboutDesc: 'تم إنشاء هذا التطبيق الرياضي لمساعدة الناس على تحقيق أهدافهم الصحية والرياضية. مبني بشغف وتفانٍ لجعل اللياقة البدنية متاحة للجميع.',
+        followMe: 'تابعني على انستغرام',
+        btnBackHome: '← العودة للرئيسية',
+        
+        monday: 'الإثنين',
+        tuesday: 'الثلاثاء',
+        wednesday: 'الأربعاء',
+        thursday: 'الخميس',
+        friday: 'الجمعة',
+        saturday: 'السبت',
+        sunday: 'الأحد',
+        
+        catEssential: 'دهون أساسية',
+        catAthletes: 'رياضيين',
+        catFitness: 'لياقة',
+        catAverage: 'متوسط',
+        catObese: 'سمنة'
+      }
+    };
+    
+    // ==================== EXERCISE DATABASE ====================
+    const exercises = {
+      push: [
+        { name: 'Bench Press', sets: 4, reps: '8-10', rest: '90s' },
+        { name: 'Incline Dumbbell Press', sets: 3, reps: '10-12', rest: '60s' },
+        { name: 'Overhead Press', sets: 4, reps: '8-10', rest: '90s' },
+        { name: 'Dumbbell Flyes', sets: 3, reps: '12-15', rest: '45s' },
+        { name: 'Tricep Dips', sets: 3, reps: '10-12', rest: '60s' },
+        { name: 'Cable Tricep Pushdowns', sets: 3, reps: '12-15', rest: '45s' },
+        { name: 'Lateral Raises', sets: 3, reps: '12-15', rest: '45s' },
+        { name: 'Close Grip Bench Press', sets: 3, reps: '10-12', rest: '60s' }
+      ],
+      pull: [
+        { name: 'Pull-ups', sets: 4, reps: '6-10', rest: '90s' },
+        { name: 'Barbell Rows', sets: 4, reps: '8-10', rest: '90s' },
+        { name: 'Lat Pulldowns', sets: 3, reps: '10-12', rest: '60s' },
+        { name: 'Face Pulls', sets: 3, reps: '15-20', rest: '45s' },
+        { name: 'Dumbbell Curls', sets: 3, reps: '10-12', rest: '45s' },
+        { name: 'Hammer Curls', sets: 3, reps: '10-12', rest: '45s' },
+        { name: 'Seated Cable Rows', sets: 3, reps: '10-12', rest: '60s' },
+        { name: 'Rear Delt Flyes', sets: 3, reps: '12-15', rest: '45s' }
+      ],
+      legs: [
+        { name: 'Squats', sets: 4, reps: '6-8', rest: '120s' },
+        { name: 'Romanian Deadlifts', sets: 4, reps: '8-10', rest: '90s' },
+        { name: 'Leg Press', sets: 3, reps: '10-12', rest: '90s' },
+        { name: 'Walking Lunges', sets: 3, reps: '12 each', rest: '60s' },
+        { name: 'Leg Curls', sets: 3, reps: '12-15', rest: '45s' },
+        { name: 'Leg Extensions', sets: 3, reps: '12-15', rest: '45s' },
+        { name: 'Calf Raises', sets: 4, reps: '15-20', rest: '45s' },
+        { name: 'Hip Thrusts', sets: 3, reps: '10-12', rest: '60s' }
+      ],
+      upper: [
+        { name: 'Bench Press', sets: 3, reps: '8-10', rest: '90s' },
+        { name: 'Barbell Rows', sets: 3, reps: '8-10', rest: '90s' },
+        { name: 'Shoulder Press', sets: 3, reps: '10-12', rest: '60s' },
+        { name: 'Pull-ups', sets: 3, reps: '6-10', rest: '90s' },
+        { name: 'Dumbbell Flyes', sets: 3, reps: '12-15', rest: '45s' },
+        { name: 'Face Pulls', sets: 3, reps: '15-20', rest: '45s' }
+      ],
+      core: [
+        { name: 'Planks', sets: 3, reps: '45-60s', rest: '30s' },
+        { name: 'Russian Twists', sets: 3, reps: '20 total', rest: '30s' },
+        { name: 'Hanging Leg Raises', sets: 3, reps: '10-12', rest: '45s' },
+        { name: 'Cable Crunches', sets: 3, reps: '15-20', rest: '30s' },
+        { name: 'Dead Bug', sets: 3, reps: '10 each', rest: '30s' },
+        { name: 'Ab Wheel Rollouts', sets: 3, reps: '10-12', rest: '45s' }
+      ]
+    };
+    
+    // ==================== MEAL DATABASE ====================
+    const meals = {
+      breakfast: {
+        high_carb: [
+          { name: 'Oatmeal with banana and honey', protein: '10g', carbs: '60g', fats: '8g', calories: 350 },
+          { name: 'Whole wheat toast with eggs and avocado', protein: '20g', carbs: '40g', fats: '18g', calories: 400 },
+          { name: 'Pancakes with berries and yogurt', protein: '15g', carbs: '55g', fats: '10g', calories: 370 }
+        ],
+        low_carb: [
+          { name: 'Scrambled eggs with vegetables', protein: '25g', carbs: '8g', fats: '20g', calories: 310 },
+          { name: 'Greek yogurt with nuts and seeds', protein: '20g', carbs: '15g', fats: '15g', calories: 275 },
+          { name: 'Omelette with cheese and spinach', protein: '28g', carbs: '5g', fats: '22g', calories: 330 }
+        ],
+        high_protein: [
+          { name: 'Protein smoothie with oats', protein: '35g', carbs: '45g', fats: '10g', calories: 410 },
+          { name: 'Egg whites with whole wheat toast', protein: '30g', carbs: '30g', fats: '5g', calories: 285 },
+          { name: 'Cottage cheese with fruit', protein: '28g', carbs: '20g', fats: '8g', calories: 260 }
+        ]
+      },
+      lunch: {
+        high_carb: [
+          { name: 'Chicken breast with rice and vegetables', protein: '40g', carbs: '55g', fats: '12g', calories: 490 },
+          { name: 'Pasta with ground beef and tomato sauce', protein: '35g', carbs: '65g', fats: '15g', calories: 530 },
+          { name: 'Tuna sandwich with salad', protein: '30g', carbs: '45g', fats: '15g', calories: 430 }
+        ],
+        low_carb: [
+          { name: 'Grilled salmon with roasted vegetables', protein: '38g', carbs: '15g', fats: '22g', calories: 410 },
+          { name: 'Chicken salad with olive oil dressing', protein: '35g', carbs: '12g', fats: '25g', calories: 415 },
+          { name: 'Beef stir-fry with vegetables', protein: '40g', carbs: '18g', fats: '20g', calories: 410 }
+        ],
+        high_protein: [
+          { name: 'Double chicken breast with quinoa', protein: '55g', carbs: '40g', fats: '12g', calories: 490 },
+          { name: 'Lean beef with sweet potato', protein: '45g', carbs: '35g', fats: '15g', calories: 450 },
+          { name: 'Fish with brown rice and broccoli', protein: '42g', carbs: '45g', fats: '10g', calories: 440 }
+        ]
+      },
+      dinner: {
+        high_carb: [
+          { name: 'Grilled fish with potato and salad', protein: '35g', carbs: '50g', fats: '12g', calories: 450 },
+          { name: 'Chicken curry with rice', protein: '38g', carbs: '60g', fats: '18g', calories: 550 },
+          { name: 'Turkey meatballs with pasta', protein: '32g', carbs: '55g', fats: '15g', calories: 480 }
+        ],
+        low_carb: [
+          { name: 'Grilled steak with asparagus', protein: '42g', carbs: '8g', fats: '25g', calories: 425 },
+          { name: 'Baked chicken with green beans', protein: '38g', carbs: '12g', fats: '15g', calories: 335 },
+          { name: 'Shrimp with zucchini noodles', protein: '30g', carbs: '10g', fats: '12g', calories: 268 }
+        ],
+        high_protein: [
+          { name: 'Lean steak with vegetables', protein: '50g', carbs: '20g', fats: '18g', calories: 440 },
+          { name: 'Chicken and fish combo plate', protein: '55g', carbs: '25g', fats: '15g', calories: 455 },
+          { name: 'Egg white omelette with lean ham', protein: '45g', carbs: '10g', fats: '12g', calories: 328 }
+        ]
+      },
+      snack: {
+        high_carb: [
+          { name: 'Banana with peanut butter', protein: '8g', carbs: '35g', fats: '16g', calories: 310 },
+          { name: 'Trail mix with dried fruit', protein: '10g', carbs: '40g', fats: '18g', calories: 358 },
+          { name: 'Rice cakes with honey', protein: '5g', carbs: '30g', fats: '2g', calories: 158 }
+        ],
+        low_carb: [
+          { name: 'Almonds and cheese', protein: '15g', carbs: '8g', fats: '25g', calories: 315 },
+          { name: 'Hard boiled eggs', protein: '12g', carbs: '2g', fats: '10g', calories: 146 },
+          { name: 'Cucumber with hummus', protein: '6g', carbs: '12g', fats: '8g', calories: 140 }
+        ],
+        high_protein: [
+          { name: 'Protein shake', protein: '25g', carbs: '5g', fats: '3g', calories: 145 },
+          { name: 'Greek yogurt with protein powder', protein: '35g', carbs: '15g', fats: '5g', calories: 245 },
+          { name: 'Cottage cheese with almonds', protein: '22g', carbs: '10g', fats: '12g', calories: 232 }
+        ]
+      }
+    };
+    
+    // ==================== CHALLENGES DATABASE ====================
+    const challengesByType = {
+      legDay: [
+        { id: 'leg1', text: { en: 'Drink 2L of water', fr: 'Boire 2L d\'eau', ar: 'اشرب 2 لتر من الماء' }, icon: '💧' },
+        { id: 'leg2', text: { en: 'Stretch for 10 minutes', fr: 'Étirement pendant 10 minutes', ar: 'تمدد لمدة 10 دقائق' }, icon: '🧘' },
+        { id: 'leg3', text: { en: 'Eat extra protein today', fr: 'Manger plus de protéines aujourd\'hui', ar: 'تناول بروتين إضافي اليوم' }, icon: '🥩' },
+        { id: 'leg4', text: { en: 'Take a cold shower after workout', fr: 'Prendre une douche froide après l\'entraînement', ar: 'خذ دش بارد بعد التمرين' }, icon: '🚿' },
+        { id: 'leg5', text: { en: 'Sleep 8 hours tonight', fr: 'Dormir 8 heures ce soir', ar: 'نم 8 ساعات الليلة' }, icon: '😴' },
+        { id: 'leg6', text: { en: 'Walk 5000 steps', fr: 'Marcher 5000 pas', ar: 'امشِ 5000 خطوة' }, icon: '🚶' }
+      ],
+      trainingDay: [
+        { id: 'train1', text: { en: 'Complete your workout', fr: 'Complétez votre entraînement', ar: 'أكمل تمرينك' }, icon: '🏋️' },
+        { id: 'train2', text: { en: 'Drink 2.5L of water', fr: 'Boire 2.5L d\'eau', ar: 'اشرب 2.5 لتر من الماء' }, icon: '💧' },
+        { id: 'train3', text: { en: 'Eat a pre-workout meal', fr: 'Manger un repas avant l\'entraînement', ar: 'تناول وجبة قبل التمرين' }, icon: '🍌' },
+        { id: 'train4', text: { en: 'Post-workout protein shake', fr: 'Shake protéiné après l\'entraînement', ar: 'شيك بروتين بعد التمرين' }, icon: '🥤' },
+        { id: 'train5', text: { en: 'Track your calories', fr: 'Suivre vos calories', ar: 'تتبع سعراتك الحرارية' }, icon: '📊' },
+        { id: 'train6', text: { en: 'Foam roll for 5 minutes', fr: 'Rouleau en mousse pendant 5 minutes', ar: 'استخدم الرولر لمدة 5 دقائق' }, icon: '🎯' }
+      ],
+      restDay: [
+        { id: 'rest1', text: { en: 'Take a 30-minute walk', fr: 'Faire une marche de 30 minutes', ar: 'امشِ لمدة 30 دقيقة' }, icon: '🚶' },
+        { id: 'rest2', text: { en: 'Stretch all muscle groups', fr: 'Étirer tous les groupes musculaires', ar: 'تمدد لجميع العضلات' }, icon: '🧘' },
+        { id: 'rest3', text: { en: 'Eat clean today', fr: 'Manger sainement aujourd\'hui', ar: 'تناول طعام صحي اليوم' }, icon: '🥗' },
+        { id: 'rest4', text: { en: 'Get 8+ hours of sleep', fr: 'Dormir 8+ heures', ar: 'نم 8 ساعات أو أكثر' }, icon: '😴' },
+        { id: 'rest5', text: { en: 'Meditate for 10 minutes', fr: 'Méditer pendant 10 minutes', ar: 'تأمل لمدة 10 دقائق' }, icon: '🧠' },
+        { id: 'rest6', text: { en: 'Stay hydrated', fr: 'Rester hydraté', ar: 'حافظ على ترطيبك' }, icon: '💧' }
+      ],
+      fatloss: [
+        { id: 'fat1', text: { en: 'Stay in calorie deficit', fr: 'Rester en déficit calorique', ar: 'ابقَ في عجز السعرات' }, icon: '📉' },
+        { id: 'fat2', text: { en: '20 min cardio', fr: '20 min de cardio', ar: '20 دقيقة كارديو' }, icon: '🏃' },
+        { id: 'fat3', text: { en: 'No sugary drinks', fr: 'Pas de boissons sucrées', ar: 'لا مشروبات سكرية' }, icon: '🚫' },
+        { id: 'fat4', text: { en: 'Eat vegetables with every meal', fr: 'Manger des légumes à chaque repas', ar: 'تناول خضروات مع كل وجبة' }, icon: '🥦' },
+        { id: 'fat5', text: { en: 'Drink green tea', fr: 'Boire du thé vert', ar: 'اشرب الشاي الأخضر' }, icon: '🍵' },
+        { id: 'fat6', text: { en: 'Walk 10000 steps', fr: 'Marcher 10000 pas', ar: 'امشِ 10000 خطوة' }, icon: '👟' }
+      ],
+      muscle: [
+        { id: 'mus1', text: { en: 'Eat in calorie surplus', fr: 'Manger en excès calorique', ar: 'تناول سعرات أكثر' }, icon: '📈' },
+        { id: 'mus2', text: { en: 'Hit protein goal (1.6g/kg)', fr: 'Atteindre l\'objectif protéines (1.6g/kg)', ar: 'حقق هدف البروتين (1.6غ/كغ)' }, icon: '🎯' },
+        { id: 'mus3', text: { en: 'Progressive overload today', fr: 'Surcharge progressive aujourd\'hui', ar: 'زد الحمل تدريجياً اليوم' }, icon: '💪' },
+        { id: 'mus4', text: { en: 'Sleep for muscle recovery', fr: 'Dormir pour la récupération musculaire', ar: 'نم لاستشفاء العضلات' }, icon: '😴' },
+        { id: 'mus5', text: { en: 'Eat complex carbs', fr: 'Manger des glucides complexes', ar: 'تناول كربوهيدرات معقدة' }, icon: '🍚' },
+        { id: 'mus6', text: { en: 'Creatine supplement', fr: 'Supplément de créatine', ar: 'مكمل الكرياتين' }, icon: '💊' }
+      ]
+    };
+    
+    // ==================== MOTIVATIONAL QUOTES ====================
+    const quotes = [
+      { text: { en: '"The only bad workout is the one that didn\'t happen."', fr: '"Le seul mauvais entraînement est celui qui n\'a pas eu lieu."', ar: '"التمرين السيء الوحيد هو الذي لم يحدث."' }, author: 'Unknown' },
+      { text: { en: '"Success starts with self-discipline."', fr: '"Le succès commence par l\'autodiscipline."', ar: '"النجاح يبدأ بالانضباط الذاتي."' }, author: 'Unknown' },
+      { text: { en: '"Your body can stand almost anything. It\'s your mind you have to convince."', fr: '"Votre corps peut supporter presque tout. C\'est votre esprit que vous devez convaincre."', ar: '"جسدك يمكنه تحمل أي شيء تقريباً. عقلك هو ما يجب إقناعه."' }, author: 'Unknown' },
+      { text: { en: '"Don\'t wish for it, work for it."', fr: '"Ne le souhaite pas, travaille pour l\'obtenir."', ar: '"لا تتمنى ذلك، اعمل من أجله."' }, author: 'Unknown' },
+      { text: { en: '"The pain you feel today will be the strength you feel tomorrow."', fr: '"La douleur que vous ressentez aujourd\'hui sera la force que vous ressentirez demain."', ar: '"الألم الذي تشعر به اليوم سيكون القوة التي تشعر بها غداً."' }, author: 'Unknown' },
+      { text: { en: '"Sweat is fat crying."', fr: '"La sueur, c\'est la graisse qui pleure."', ar: '"العرق هو دهون تبكي."' }, author: 'Unknown' },
+      { text: { en: '"No pain, no gain."', fr: '"Pas de douleur, pas de gain."', ar: '"لا ألم، لا مكسب."' }, author: 'Unknown' }
+    ];
+    
+    // ==================== AI RESPONSES ====================
+    const aiResponses = {
+      greeting: {
+        en: '👋 Great question! Let me help you with that.',
+        fr: '👋 Excellente question! Laissez-moi vous aider.',
+        ar: '👋 سؤال رائع! دعني أساعدك.'
+      },
+      workout: {
+        en: '🏋️ For your training, I recommend focusing on compound movements like squats, deadlifts, and bench press. Make sure to progressively increase weights and maintain proper form. Rest 48-72 hours between training the same muscle group.',
+        fr: '🏋️ Pour votre entraînement, je recommande de vous concentrer sur les mouvements composés comme les squats, les soulevés de terre et le développé couché. Assurez-vous d\'augmenter progressivement les poids et de maintenir une bonne forme. Reposez-vous 48-72 heures entre l\'entraînement du même groupe musculaire.',
+        ar: '🏋️ للتدريب، أنصحك بالتركيز على التمارين المركبة مثل السكوات والديدليفت وبنش برس. تأكد من زيادة الأوزان تدريجياً والحفاظ على الفورم الصحيح. استرح 48-72 ساعة بين تدريب نفس المجموعة العضلية.'
+      },
+      nutrition: {
+        en: '🥗 Nutrition is key! Aim for 1.6-2.2g of protein per kg of body weight. Eat whole foods, plenty of vegetables, and stay hydrated. For muscle gain, eat in a slight calorie surplus. For fat loss, maintain a moderate deficit of 300-500 calories.',
+        fr: '🥗 La nutrition est la clé! Visez 1.6-2.2g de protéines par kg de poids corporel. Mangez des aliments entiers, beaucoup de légumes, et restez hydraté. Pour la prise de muscle, mangez un léger excès calorique. Pour la perte de graisse, maintenez un déficit modéré de 300-500 calories.',
+        ar: '🥗 التغذية هي المفتاح! استهدف 1.6-2.2غ من البروتين لكل كغ من وزن الجسم. تناول أطعمة كاملة وخضروات كثيرة وابقَ رطباً. لبناء العضلات، تناول فائض سعرات خفيف. لفقدان الدهون، حافظ على عجز معتدل 300-500 سعرة.'
+      },
+      motivation: {
+        en: '💪 Remember, consistency beats intensity! Show up every day, even when you don\'t feel like it. Progress is not always linear, but every workout counts. Trust the process and celebrate small wins!',
+        fr: '💪 Rappelez-vous, la constance bat l\'intensité! Présentez-vous chaque jour, même quand vous n\'en avez pas envie. Le progrès n\'est pas toujours linéaire, mais chaque entraînement compte. Faites confiance au processus et célébrez les petites victoires!',
+        ar: '💪 تذكر، الاستمرارية تغلب الشدة! احضر كل يوم، حتى عندما لا تشعر برغبة. التقدم ليس دائماً خطياً، لكن كل تمرين يُحسب. ثق بالعملية واحتفل بالإنجازات الصغيرة!'
+      },
+      recovery: {
+        en: '😴 Recovery is where gains happen! Get 7-9 hours of quality sleep, manage stress, and don\'t skip rest days. Consider stretching, foam rolling, and proper warm-ups to prevent injuries.',
+        fr: '😴 La récupération, c\'est là que les gains se produisent! Dormez 7-9 heures de qualité, gérez le stress, et ne sautez pas les jours de repos. Considérez les étirements, le rouleau en mousse, et les échauffements appropriés pour prévenir les blessures.',
+        ar: '😴 الاستشفاء هو مكان حدوث المكاسب! احصل على 7-9 ساعات نوم جيد، تحكم في التوتر، ولا تتخطَّ أيام الراحة. فكر في التمدد والرولر والإحماء المناسب لمنع الإصابات.'
+      },
+      default: {
+        en: '🤔 That\'s interesting! Based on general fitness principles, I\'d suggest focusing on consistent training, proper nutrition, and adequate recovery. Would you like more specific advice about workouts, meals, or motivation?',
+        fr: '🤔 C\'est intéressant! Basé sur les principes généraux de fitness, je suggère de se concentrer sur un entraînement cohérent, une nutrition appropriée et une récupération adéquate. Voulez-vous des conseils plus spécifiques sur les entraînements, les repas ou la motivation?',
+        ar: '🤔 هذا مثير للاهتمام! بناءً على مبادئ اللياقة العامة، أقترح التركيز على التدريب المستمر والتغذية السليمة والاستشفاء الكافي. هل تريد نصائح أكثر تحديداً حول التمارين أو الوجبات أو التحفيز؟'
+      }
+    };
+    
+    // ==================== INITIALIZE ====================
+    const defaultConfig = {
+      app_title: 'AMRIX FITNESS'
+    };
+    
+    let config = { ...defaultConfig };
+    
+    // Data Handler
+    const dataHandler = {
+      onDataChanged(data) {
+        allUserData = data;
+        const userSetup = data.find(d => d.type === 'userSetup');
+        if (userSetup) {
+          userData = {
+            sex: userSetup.sex,
+            age: userSetup.age,
+            height: userSetup.height,
+            weight: userSetup.weight,
+            goal: userSetup.goal,
+            trainingDays: userSetup.trainingDays
+          };
+          
+          // Load saved programs from database
+          if (userSetup.gymProgram) {
+            try {
+              gymProgram = JSON.parse(userSetup.gymProgram);
+            } catch (e) {
+              gymProgram = null;
+            }
+          }
+          
+          if (userSetup.mealProgram) {
+            try {
+              mealProgram = JSON.parse(userSetup.mealProgram);
+            } catch (e) {
+              mealProgram = null;
+            }
+          }
+          
+          if (userSetup.completedChallenges) {
+            try {
+              completedChallenges = new Set(JSON.parse(userSetup.completedChallenges));
+            } catch (e) {
+              completedChallenges = new Set();
+            }
+          }
+          
+          updateProgramVisibility();
+        }
+      }
+    };
+    
+    // Element SDK Handler
+    async function onConfigChange(newConfig) {
+      config = { ...defaultConfig, ...newConfig };
+      const titleEl = document.getElementById('appTitle');
+      if (titleEl) {
+        titleEl.textContent = config.app_title || defaultConfig.app_title;
+      }
+    }
+    
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+    
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['app_title', config.app_title || defaultConfig.app_title]
+      ]);
+    }
+    
+    // Initialize SDKs
+    async function init() {
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities,
+          mapToEditPanelValues
+        });
+      }
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to init data SDK');
+        }
+      }
+      
+      createMotionLines();
+      setupEventListeners();
+      setLanguage('en');
+      updateChallenges();
+      updateMotivation();
+    }
+    
+    init();
+    
+    // ==================== MOTION LINES ====================
+    function createMotionLines() {
+      const container = document.getElementById('motionLines');
+      if (!container) return;
+      
+      for (let i = 0; i < 15; i++) {
+        const line = document.createElement('div');
+        line.className = 'motion-line';
+        line.style.left = Math.random() * 100 + '%';
+        line.style.animationDelay = Math.random() * 3 + 's';
+        line.style.height = (50 + Math.random() * 100) + 'px';
+        container.appendChild(line);
+      }
+    }
+    
+    // ==================== LANGUAGE ====================
+    function setLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      const isRTL = lang === 'ar';
+      
+      document.documentElement.lang = lang;
+      document.body.classList.toggle('rtl', isRTL);
+      
+      // Update language buttons
+      document.querySelectorAll('[id^="lang"]').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('lang' + lang.charAt(0).toUpperCase() + lang.slice(1)).classList.add('active');
+      
+      // Update all text content
+      Object.keys(t).forEach(key => {
+        const el = document.getElementById(key);
+        if (el) {
+          if (key === 'heroQuote') {
+            el.innerHTML = t[key];
+          } else {
+            el.textContent = t[key];
+          }
+        }
+      });
+      
+      // Update select options
+      const goalSelect = document.getElementById('inputGoal');
+      if (goalSelect) {
+        goalSelect.innerHTML = `
+          <option value="">Select...</option>
+          <option value="fatloss">${t.goalFatloss}</option>
+          <option value="muscle">${t.goalMuscle}</option>
+          <option value="fitness">${t.goalFitness}</option>
+        `;
+      }
+      
+      const sexSelects = ['inputSex', 'fatSex'];
+      sexSelects.forEach(id => {
+        const select = document.getElementById(id);
+        if (select) {
+          select.innerHTML = `
+            <option value="">Select...</option>
+            <option value="male">${t.sexMale}</option>
+            <option value="female">${t.sexFemale}</option>
+          `;
+        }
+      });
+      
+      // Update programs if they exist
+      if (gymProgram) {
+        renderGymProgram();
+      }
+      if (mealProgram) {
+        renderMealProgram();
+      }
+      
+      updateChallenges();
+      updateMotivation();
+    }
+    
+    // ==================== NAVIGATION ====================
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      
+      const page = document.getElementById('page' + pageId.charAt(0).toUpperCase() + pageId.slice(1));
+      if (page) page.classList.add('active');
+      
+      const navBtn = document.querySelector(`[data-page="${pageId}"]`);
+      if (navBtn) navBtn.classList.add('active');
+      
+      if (pageId === 'gym' || pageId === 'meal') {
+        updateProgramVisibility();
+      }
+    }
+    
+    function updateProgramVisibility() {
+      const gymNoSetup = document.getElementById('gymNoSetup');
+      const gymContent = document.getElementById('gymContent');
+      const mealNoSetup = document.getElementById('mealNoSetup');
+      const mealContent = document.getElementById('mealContent');
+      
+      if (userData) {
+        if (gymNoSetup) gymNoSetup.classList.add('hidden');
+        if (gymContent) gymContent.classList.remove('hidden');
+        if (mealNoSetup) mealNoSetup.classList.add('hidden');
+        if (mealContent) mealContent.classList.remove('hidden');
+        
+        if (!gymProgram) {
+          generateGymProgram();
+        } else {
+          renderGymProgram();
+        }
+        
+        if (!mealProgram) {
+          generateMealProgram();
+        } else {
+          renderMealProgram();
+        }
+        
+        updateUserInfo();
+      } else {
+        if (gymNoSetup) gymNoSetup.classList.remove('hidden');
+        if (gymContent) gymContent.classList.add('hidden');
+        if (mealNoSetup) mealNoSetup.classList.remove('hidden');
+        if (mealContent) mealContent.classList.add('hidden');
+      }
+    }
+    
+    function updateUserInfo() {
+      const infoEl = document.getElementById('gymUserInfo');
+      if (infoEl && userData) {
+        const goalText = {
+          fatloss: translations[currentLang].goalFatloss,
+          muscle: translations[currentLang].goalMuscle,
+          fitness: translations[currentLang].goalFitness
+        };
+        infoEl.textContent = `${userData.trainingDays} days/week • ${goalText[userData.goal]}`;
+      }
+    }
+    
+    // ==================== SETUP FORM ====================
+    function setupEventListeners() {
+      const setupForm = document.getElementById('setupForm');
+      if (setupForm) {
+        setupForm.addEventListener('submit', handleSetupSubmit);
+      }
+      
+      const fatForm = document.getElementById('fatForm');
+      if (fatForm) {
+        fatForm.addEventListener('submit', handleFatCalculation);
+      }
+      
+      const fatSex = document.getElementById('fatSex');
+      if (fatSex) {
+        fatSex.addEventListener('change', (e) => {
+          const hipField = document.getElementById('hipField');
+          if (hipField) {
+            hipField.style.display = e.target.value === 'female' ? 'block' : 'none';
+          }
+        });
+      }
+      
+      const chatInput = document.getElementById('chatInput');
+      if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') sendMessage();
+        });
+      }
+    }
+    
+    async function handleSetupSubmit(e) {
+      e.preventDefault();
+      
+      const newUserData = {
+        sex: document.getElementById('inputSex').value,
+        age: parseInt(document.getElementById('inputAge').value),
+        height: parseInt(document.getElementById('inputHeight').value),
+        weight: parseInt(document.getElementById('inputWeight').value),
+        goal: document.getElementById('inputGoal').value,
+        trainingDays: parseInt(document.getElementById('inputDays').value)
+      };
+      
+      userData = newUserData;
+      
+      // Generate programs first
+      generateGymProgram();
+      generateMealProgram();
+      
+      if (window.dataSdk) {
+        const existingSetup = allUserData.find(d => d.type === 'userSetup');
+        
+        if (existingSetup) {
+          await window.dataSdk.update({
+            ...existingSetup,
+            ...newUserData,
+            completedChallenges: JSON.stringify([...completedChallenges]),
+            gymProgram: JSON.stringify(gymProgram),
+            mealProgram: JSON.stringify(mealProgram)
+          });
+        } else {
+          if (allUserData.length >= 999) {
+            showToast('Maximum data limit reached');
+            return;
+          }
+          
+          await window.dataSdk.create({
+            id: 'setup-' + Date.now(),
+            type: 'userSetup',
+            ...newUserData,
+            createdAt: new Date().toISOString(),
+            completedChallenges: '[]',
+            currentWeek: 1,
+            gymProgram: JSON.stringify(gymProgram),
+            mealProgram: JSON.stringify(mealProgram)
+          });
+        }
+      }
+      
+      showPage('gym');
+      showToast('Program generated! 🎉');
+    }
+    
+    // ==================== GYM PROGRAM ====================
+    function generateGymProgram() {
+      if (!userData) return;
+      
+      const days = userData.trainingDays;
+      const weekSchedule = [];
+      const dayNames = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+      
+      // Determine workout split based on days
+      let workoutTypes;
+      if (days === 3) {
+        workoutTypes = ['push', 'legs', 'pull'];
+      } else if (days === 4) {
+        workoutTypes = ['push', 'legs', 'pull', 'upper'];
+      } else if (days === 5) {
+        workoutTypes = ['push', 'legs', 'pull', 'upper', 'legs'];
+      } else {
+        workoutTypes = ['push', 'legs', 'pull', 'push', 'legs', 'pull'];
+      }
+      
+      let workoutIndex = 0;
+      let consecutiveWorkouts = 0;
+      
+      for (let i = 0; i < 7; i++) {
+        if (workoutIndex < workoutTypes.length && consecutiveWorkouts < 2) {
+          const type = workoutTypes[workoutIndex];
+          const dayExercises = shuffleArray([...exercises[type]]).slice(0, userData.goal === 'muscle' ? 6 : 5);
+          
+          weekSchedule.push({
+            day: dayNames[i],
+            type: type,
+            isRest: false,
+            isLegDay: type === 'legs',
+            exercises: dayExercises
+          });
+          
+          workoutIndex++;
+          consecutiveWorkouts++;
+        } else {
+          weekSchedule.push({
+            day: dayNames[i],
+            type: 'rest',
+            isRest: true,
+            isLegDay: false,
+            exercises: []
+          });
+          consecutiveWorkouts = 0;
+        }
+      }
+      
+      gymProgram = weekSchedule;
+      renderGymProgram();
+    }
+    
+    function renderGymProgram() {
+      const container = document.getElementById('weekSchedule');
+      if (!container || !gymProgram) return;
+      
+      const t = translations[currentLang];
+      
+      container.innerHTML = gymProgram.map(day => {
+        const dayName = t[day.day] || day.day;
+        
+        if (day.isRest) {
+          return `
+            <div class="card-glass p-4">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-lg">${dayName}</h3>
+                <span class="text-gray-400">😴</span>
+              </div>
+              <p class="text-gray-400 text-center py-8">${t.restDay}</p>
+            </div>
+          `;
+        }
+        
+        const typeEmoji = {
+          push: '💪',
+          pull: '🏋️',
+          legs: '🦵',
+          upper: '👆',
+          core: '🎯'
+        };
+        
+        const legDayClass = day.isLegDay ? 'leg-day-bg' : '';
+        const legDayQuote = day.isLegDay ? `<p class="text-sm neon-green mb-4 italic">${t.legDayQuote}</p>` : '';
+        
+        return `
+          <div class="card-glass p-4 ${legDayClass}">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-bold text-lg">${dayName}</h3>
+              <span class="text-2xl">${typeEmoji[day.type] || '💪'}</span>
+            </div>
+            <p class="text-sm text-gray-400 mb-2 uppercase">${day.type}</p>
+            ${legDayQuote}
+            <div class="space-y-2">
+              ${day.exercises.map(ex => `
+                <div class="exercise-card">
+                  <p class="font-semibold text-sm">${ex.name}</p>
+                  <div class="flex justify-between text-xs text-gray-400 mt-1">
+                    <span>${ex.sets} sets</span>
+                    <span>${ex.reps} reps</span>
+                    <span>${ex.rest}</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function regenerateGymProgram() {
+      generateGymProgram();
+      
+      // Save to database
+      if (window.dataSdk && userData) {
+        const existingSetup = allUserData.find(d => d.type === 'userSetup');
+        if (existingSetup) {
+          window.dataSdk.update({
+            ...existingSetup,
+            gymProgram: JSON.stringify(gymProgram)
+          });
+        }
+      }
+      
+      showToast('New gym program generated! 💪');
+    }
+    
+    // ==================== MEAL PROGRAM ====================
+    function generateMealProgram() {
+      if (!userData || !gymProgram) return;
+      
+      mealProgram = gymProgram.map(day => {
+        let mealType;
+        
+        if (day.isRest) {
+          mealType = userData.goal === 'fatloss' ? 'low_carb' : (userData.goal === 'muscle' ? 'high_protein' : 'low_carb');
+        } else if (day.isLegDay) {
+          mealType = 'high_carb';
+        } else {
+          mealType = userData.goal === 'fatloss' ? 'low_carb' : (userData.goal === 'muscle' ? 'high_protein' : 'high_carb');
+        }
+        
+        return {
+          day: day.day,
+          isRest: day.isRest,
+          isLegDay: day.isLegDay,
+          mealType: mealType,
+          meals: {
+            breakfast: getRandomMeal(meals.breakfast[mealType]),
+            lunch: getRandomMeal(meals.lunch[mealType]),
+            dinner: getRandomMeal(meals.dinner[mealType]),
+            snack: getRandomMeal(meals.snack[mealType])
+          }
+        };
+      });
+      
+      renderMealProgram();
+    }
+    
+    function renderMealProgram() {
+      const container = document.getElementById('mealSchedule');
+      if (!container || !mealProgram) return;
+      
+      const t = translations[currentLang];
+      
+      container.innerHTML = mealProgram.map(day => {
+        const dayName = t[day.day] || day.day;
+        const typeLabel = day.isLegDay ? '🦵 Leg Day - High Carbs' : (day.isRest ? '😴 Rest Day' : '💪 Training Day');
+        
+        return `
+          <div class="card-glass p-4 md:p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <h3 class="font-bold text-xl neon-blue">${dayName}</h3>
+              <span class="text-sm text-gray-400">${typeLabel}</span>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-4">
+              ${Object.entries(day.meals).map(([mealTime, meal]) => `
+                <div class="meal-card">
+                  <h4 class="font-semibold mb-2">${t[mealTime] || mealTime}</h4>
+                  <p class="text-sm mb-2">${meal.name}</p>
+                  <div class="flex flex-wrap gap-2 text-xs">
+                    <span class="bg-green-500/20 px-2 py-1 rounded">P: ${meal.protein}</span>
+                    <span class="bg-blue-500/20 px-2 py-1 rounded">C: ${meal.carbs}</span>
+                    <span class="bg-yellow-500/20 px-2 py-1 rounded">F: ${meal.fats}</span>
+                    <span class="bg-red-500/20 px-2 py-1 rounded">${meal.calories} kcal</span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    function regenerateMealProgram() {
+      generateMealProgram();
+      
+      // Save to database
+      if (window.dataSdk && userData) {
+        const existingSetup = allUserData.find(d => d.type === 'userSetup');
+        if (existingSetup) {
+          window.dataSdk.update({
+            ...existingSetup,
+            mealProgram: JSON.stringify(mealProgram)
+          });
+        }
+      }
+      
+      showToast('New meal program generated! 🥗');
+    }
+    
+    // ==================== FAT CALCULATOR ====================
+    function handleFatCalculation(e) {
+      e.preventDefault();
+      
+      const sex = document.getElementById('fatSex').value;
+      const height = parseFloat(document.getElementById('fatHeight').value);
+      const waist = parseFloat(document.getElementById('fatWaist').value);
+      const neck = parseFloat(document.getElementById('fatNeck').value);
+      const hip = parseFloat(document.getElementById('fatHip')?.value || 0);
+      
+      let bodyFat;
+      
+      if (sex === 'male') {
+        bodyFat = 495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height)) - 450;
+      } else {
+        bodyFat = 495 / (1.29579 - 0.35004 * Math.log10(waist + hip - neck) + 0.22100 * Math.log10(height)) - 450;
+      }
+      
+      bodyFat = Math.max(0, Math.min(60, bodyFat)).toFixed(1);
+      
+      let category, advice;
+      const t = translations[currentLang];
+      
+      if (sex === 'male') {
+        if (bodyFat < 6) { category = t.catEssential; advice = getAdvice('essential'); }
+        else if (bodyFat < 14) { category = t.catAthletes; advice = getAdvice('athletes'); }
+        else if (bodyFat < 18) { category = t.catFitness; advice = getAdvice('fitness'); }
+        else if (bodyFat < 25) { category = t.catAverage; advice = getAdvice('average'); }
+        else { category = t.catObese; advice = getAdvice('obese'); }
+      } else {
+        if (bodyFat < 14) { category = t.catEssential; advice = getAdvice('essential'); }
+        else if (bodyFat < 21) { category = t.catAthletes; advice = getAdvice('athletes'); }
+        else if (bodyFat < 25) { category = t.catFitness; advice = getAdvice('fitness'); }
+        else if (bodyFat < 32) { category = t.catAverage; advice = getAdvice('average'); }
+        else { category = t.catObese; advice = getAdvice('obese'); }
+      }
+      
+      document.getElementById('fatPercentage').textContent = bodyFat + '% Body Fat';
+      document.getElementById('fatCategory').textContent = category;
+      document.getElementById('fatAdvice').textContent = advice;
+      document.getElementById('fatResult').classList.remove('hidden');
+    }
+    
+    function getAdvice(category) {
+      const adviceText = {
+        essential: {
+          en: 'Your body fat is very low. Focus on maintaining health and consider consulting a professional.',
+          fr: 'Votre graisse corporelle est très basse. Concentrez-vous sur le maintien de la santé.',
+          ar: 'دهون جسمك منخفضة جداً. ركز على الحفاظ على صحتك.'
+        },
+        athletes: {
+          en: 'Great job! You have an athletic body fat percentage. Keep up the good work!',
+          fr: 'Excellent! Vous avez un pourcentage de graisse athlétique. Continuez!',
+          ar: 'ممتاز! لديك نسبة دهون رياضية. استمر!'
+        },
+        fitness: {
+          en: 'You are in good shape! Maintain your fitness routine for optimal health.',
+          fr: 'Vous êtes en bonne forme! Maintenez votre routine fitness.',
+          ar: 'أنت في شكل جيد! حافظ على روتينك الرياضي.'
+        },
+        average: {
+          en: 'You are in the average range. Consider adding more exercise and improving nutrition.',
+          fr: 'Vous êtes dans la moyenne. Considérez plus d\'exercice et une meilleure nutrition.',
+          ar: 'أنت في المعدل المتوسط. فكر بإضافة المزيد من التمارين.'
+        },
+        obese: {
+          en: 'Consider starting a fitness program. Focus on gradual changes in diet and exercise.',
+          fr: 'Considérez commencer un programme fitness. Des changements graduels.',
+          ar: 'فكر في بدء برنامج لياقة. ركز على تغييرات تدريجية.'
+        }
+      };
+      
+      return adviceText[category][currentLang];
+    }
+    
+    // ==================== AI COACH ====================
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const container = document.getElementById('chatContainer');
+      const message = input.value.trim();
+      
+      if (!message) return;
+      
+      // Add user message
+      const userDiv = document.createElement('div');
+      userDiv.className = 'chat-message chat-user';
+      userDiv.textContent = message;
+      container.appendChild(userDiv);
+      
+      input.value = '';
+      
+      // Generate AI response
+      setTimeout(() => {
+        const response = getAIResponse(message);
+        const aiDiv = document.createElement('div');
+        aiDiv.className = 'chat-message chat-ai';
+        aiDiv.textContent = response;
+        container.appendChild(aiDiv);
+        container.scrollTop = container.scrollHeight;
+      }, 500);
+      
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    function getAIResponse(message) {
+      const lowerMsg = message.toLowerCase();
+      
+      if (lowerMsg.includes('workout') || lowerMsg.includes('training') || lowerMsg.includes('exercise') || lowerMsg.includes('تمرين') || lowerMsg.includes('entraînement')) {
+        return aiResponses.workout[currentLang];
+      }
+      if (lowerMsg.includes('food') || lowerMsg.includes('eat') || lowerMsg.includes('diet') || lowerMsg.includes('nutrition') || lowerMsg.includes('أكل') || lowerMsg.includes('manger')) {
+        return aiResponses.nutrition[currentLang];
+      }
+      if (lowerMsg.includes('motivat') || lowerMsg.includes('tired') || lowerMsg.includes('give up') || lowerMsg.includes('تحفيز') || lowerMsg.includes('motiv')) {
+        return aiResponses.motivation[currentLang];
+      }
+      if (lowerMsg.includes('sleep') || lowerMsg.includes('rest') || lowerMsg.includes('recover') || lowerMsg.includes('نوم') || lowerMsg.includes('dormir')) {
+        return aiResponses.recovery[currentLang];
+      }
+      
+      return aiResponses.default[currentLang];
+    }
+    
+    // ==================== CHALLENGES ====================
+    function updateChallenges() {
+      const container = document.getElementById('challengeContent');
+      if (!container) return;
+      
+      let challenges;
+      
+      if (userData) {
+        // Get challenges based on goal and current day type
+        const todayIndex = new Date().getDay();
+        const isLegDay = gymProgram && gymProgram[todayIndex]?.isLegDay;
+        const isRestDay = gymProgram && gymProgram[todayIndex]?.isRest;
+        
+        if (isLegDay) {
+          challenges = challengesByType.legDay;
+        } else if (isRestDay) {
+          challenges = challengesByType.restDay;
+        } else if (userData.goal === 'fatloss') {
+          challenges = challengesByType.fatloss;
+        } else if (userData.goal === 'muscle') {
+          challenges = challengesByType.muscle;
+        } else {
+          challenges = challengesByType.trainingDay;
+        }
+      } else {
+        challenges = challengesByType.trainingDay;
+      }
+      
+      container.innerHTML = challenges.map(ch => {
+        const isCompleted = completedChallenges.has(ch.id);
+        return `
+          <div class="challenge-card ${isCompleted ? 'completed' : ''}" data-id="${ch.id}">
+            <div class="flex items-start gap-4">
+              <span class="text-3xl">${ch.icon}</span>
+              <div class="flex-1">
+                <p class="font-semibold">${ch.text[currentLang]}</p>
+                <button onclick="toggleChallenge('${ch.id}')" class="btn-secondary text-sm mt-3 ${isCompleted ? 'opacity-50' : ''}">
+                  ${isCompleted ? '✅ Done' : '☐ Mark Done'}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      updateChallengeProgress();
+    }
+    
+    async function toggleChallenge(id) {
+      if (completedChallenges.has(id)) {
+        completedChallenges.delete(id);
+      } else {
+        completedChallenges.add(id);
+      }
+      
+      // Save to database
+      if (window.dataSdk && userData) {
+        const existingSetup = allUserData.find(d => d.type === 'userSetup');
+        if (existingSetup) {
+          await window.dataSdk.update({
+            ...existingSetup,
+            completedChallenges: JSON.stringify([...completedChallenges])
+          });
+        }
+      }
+      
+      updateChallenges();
+    }
+    
+    function updateChallengeProgress() {
+      const total = 6;
+      const completed = completedChallenges.size;
+      const percentage = (completed / total) * 100;
+      
+      const progressBar = document.getElementById('challengeProgress');
+      const progressText = document.getElementById('challengeProgressText');
+      
+      if (progressBar) progressBar.style.width = percentage + '%';
+      if (progressText) progressText.textContent = `${completed}/${total} completed`;
+    }
+    
+    // ==================== MOTIVATION ====================
+    function updateMotivation() {
+      const quote = quotes[Math.floor(Math.random() * quotes.length)];
+      
+      const quoteEl = document.getElementById('dailyQuote');
+      const authorEl = document.getElementById('quoteAuthor');
+      
+      if (quoteEl) quoteEl.textContent = quote.text[currentLang];
+      if (authorEl) authorEl.textContent = '— ' + quote.author;
+    }
+    
+    // ==================== UTILITIES ====================
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+    
+    function getRandomMeal(mealArray) {
+      return mealArray[Math.floor(Math.random() * mealArray.length)];
+    }
+    
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 bg-green-500 text-black px-6 py-3 rounded-full font-bold z-50 animate-bounce';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => toast.remove(), 3000);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd02741b5d6acfb',t:'MTc3MDk0MTk1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
